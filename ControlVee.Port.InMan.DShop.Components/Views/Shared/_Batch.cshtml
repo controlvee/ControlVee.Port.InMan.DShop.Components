@@ -1,0 +1,45 @@
+﻿@model ControlVee.Port.InMan.DShop.Components.BatchModel
+
+<content class="batch-partial-view list-group-item">
+
+    <div class="batch-card">
+            <div class="card-header card-title">
+                    <dl class="row">
+                        <dt class="col-sm-2 card-header-pills badge-pill">
+                            @Html.DisplayNameFor(model => model.NameOf) 
+                        </dt>
+                        <dd class="col-sm-10 card-header-pills badge-pill">
+                            @Html.DisplayFor(model => model.NameOf)
+                        </dd>
+                    </dl>
+            </div>
+        <dl class="row">
+                <div class="card-body">
+                    <dt class="col-sm-2 card-header-pills badge-pill">
+                        @Html.DisplayNameFor(model => model.ID)
+                    </dt>
+                    <dd class="col-sm-10 card-header-pills badge-pill">
+                        @Html.DisplayFor(model => model.ID)
+                    </dd>
+                    <dt class="col-sm-2 card-header-pills badge-pill">
+                        @Html.DisplayNameFor(model => model.Started)
+                    </dt>
+                    <dd class="col-sm-10 card-header-pills badge-pill">
+                        @Html.DisplayFor(model => model.Started)
+                    </dd>
+                    <dt class="col-sm-2 card-header-pills badge-pill">
+                        @Html.DisplayNameFor(model => model.Total)
+                    </dt>
+                    <dd class="col-sm-10 card-header-pills badge-pill">
+                        @Html.DisplayFor(model => model.Total)
+                    </dd>
+                        <content>
+                            <mark>
+                                @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+                                <a asp-action="Index">Back to List</a>
+                            </mark>
+                        </content>
+                </div>
+        </dl>
+    </div>
+</content>
