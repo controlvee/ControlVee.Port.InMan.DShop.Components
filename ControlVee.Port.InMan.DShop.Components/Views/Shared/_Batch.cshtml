@@ -13,8 +13,9 @@
                 var minTime = 0;
                 const maxTime = 100;
                 const totalMiliInOneMin = 36000;
-                const totalMiliInOneSec = 1000;
+                const totalMiliInOneSec = 200;
                 var percent = 0;
+                var percentMax = 100;
 
                 var progbar = document.getElementById("progress-bar_x");
                 var progbarLabelValue = document.getElementById("progress-value_x");
@@ -23,30 +24,33 @@
 
                 function time() {
 
-                    var progBarColor = "";
                     var colorFresh = "#61ed29";
                     var colorStable = "#0366d6";
                     var colorGettingStale = "#bee45e";
                     var colorExpired = "#eb5858";
+                    
+                    switch (true) {
+                        case (percent > 10 && percent < 75):
+                            progbar.style.background = colorStable;
+                            break;
+                        case (percent >= 75 && percent < percentMax):
+                            progbar.style.background = colorGettingStale;
+                            break;
+                        case (percent > percentMax):
+                            progbar.style.background = colorExpired;
+                            break;
+                        default:
+                            progbar.style.background = colorFresh;
+                    }
 
-                    if (minTime <= maxTime - 90) {
-                        progBarColor = colorFresh;
-                    }
-                    if ((minTime <= maxTime - 89) && (minTime <= maxTime - 25)) {
-                        progBarColor = colorStable;
-                    }
-                    if ((minTime <= maxTime - 24) && (minTime <= maxTime)) {
-                        progBarColor = colorGettingStale;
-                    }
-                    if (minTime >= maxTime) {
-                        progBarColor = colorExpired;
-                    }
+                    if (percent > percentMax) { percent = percentMax; };
 
                     progbar.style.width = percent + "%";
                     progbarLabelValue.innerHTML = percent + " seconds";
-                    progbar.style.background = progBarColor;
                     minTime++;
                     percent++;
+
+                    console.log(percent + " " + percentMax + "prog width: " + progbar.style.width);
                 }
             };
         </script>
