@@ -1,45 +1,88 @@
 ﻿@model ControlVee.Port.InMan.DShop.Components.BatchModel
 
 <content class="batch-partial-view list-group-item">
-
     <div class="batch-card">
             <div class="card-header card-title">
-                    <dl class="row">
-                        <dt class="col-sm-2 card-header-pills badge-pill">
-                            @Html.DisplayNameFor(model => model.NameOf) 
-                        </dt>
-                        <dd class="col-sm-10 card-header-pills badge-pill">
-                            @Html.DisplayFor(model => model.NameOf)
-                        </dd>
-                    </dl>
-            </div>
-        <dl class="row">
-                <div class="card-body">
-                    <dt class="col-sm-2 card-header-pills badge-pill">
-                        @Html.DisplayNameFor(model => model.ID)
-                    </dt>
-                    <dd class="col-sm-10 card-header-pills badge-pill">
-                        @Html.DisplayFor(model => model.ID)
-                    </dd>
-                    <dt class="col-sm-2 card-header-pills badge-pill">
-                        @Html.DisplayNameFor(model => model.Started)
-                    </dt>
-                    <dd class="col-sm-10 card-header-pills badge-pill">
-                        @Html.DisplayFor(model => model.Started)
-                    </dd>
-                    <dt class="col-sm-2 card-header-pills badge-pill">
-                        @Html.DisplayNameFor(model => model.Total)
-                    </dt>
-                    <dd class="col-sm-10 card-header-pills badge-pill">
-                        @Html.DisplayFor(model => model.Total)
-                    </dd>
-                        <content>
-                            <mark>
-                                @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-                                <a asp-action="Index">Back to List</a>
-                            </mark>
-                        </content>
+                <div id="progress-value_x" class="col-form-label"></div>
+                <div class="progress">
+                    <div id="progress-bar_x" class="progress-bar" role="progressbar"></div>
                 </div>
+            </div>
+        <script type="text/javascript">
+            window.onload = function () {
+                var minTime = 0;
+                const maxTime = 100;
+                const totalMiliInOneMin = 36000;
+                const totalMiliInOneSec = 1000;
+                var percent = 0;
+
+                var progbar = document.getElementById("progress-bar_x");
+                var progbarLabelValue = document.getElementById("progress-value_x");
+
+                var myVar = setInterval(time, totalMiliInOneSec);
+
+                function time() {
+
+                    var progBarColor = "";
+                    var colorFresh = "#61ed29";
+                    var colorStable = "#0366d6";
+                    var colorGettingStale = "#bee45e";
+                    var colorExpired = "#eb5858";
+
+                    if (minTime <= maxTime - 90) {
+                        progBarColor = colorFresh;
+                    }
+                    if ((minTime <= maxTime - 89) && (minTime <= maxTime - 25)) {
+                        progBarColor = colorStable;
+                    }
+                    if ((minTime <= maxTime - 24) && (minTime <= maxTime)) {
+                        progBarColor = colorGettingStale;
+                    }
+                    if (minTime >= maxTime) {
+                        progBarColor = colorExpired;
+                    }
+
+                    progbar.style.width = percent + "%";
+                    progbarLabelValue.innerHTML = percent + " seconds";
+                    progbar.style.background = progBarColor;
+                    minTime++;
+                    percent++;
+                }
+            };
+        </script>
+        <dl class="row">
+            <div class="card-body">
+                <dt class="col-sm-2 card-header-pills badge-pill">
+                    @Html.DisplayNameFor(model => model.NameOf)
+                </dt>
+                <dd class="col-sm-10 card-header-pills badge-pill">
+                    @Html.DisplayFor(model => model.NameOf)
+                </dd>
+                <dt class="col-sm-2 card-header-pills badge-pill">
+                    @Html.DisplayNameFor(model => model.ID)
+                </dt>
+                <dd class="col-sm-10 card-header-pills badge-pill">
+                    @Html.DisplayFor(model => model.ID)
+                </dd>
+                <dt class="col-sm-2 card-header-pills badge-pill">
+                    @Html.DisplayNameFor(model => model.Started)
+                </dt>
+                <dd class="col-sm-10 card-header-pills badge-pill">
+                    @Html.DisplayFor(model => model.Started)
+                </dd>
+                <dt class="col-sm-2 card-header-pills badge-pill">
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
+                <dd class="col-sm-10 card-header-pills badge-pill">
+                    @Html.DisplayFor(model => model.Total)
+                </dd>
+                <content>
+                    <mark>
+                        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+                        <a asp-action="Index">Back to List</a>
+                    </mark>
+                </content>
+            </div>
         </dl>
     </div>
 </content>

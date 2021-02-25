@@ -74,19 +74,10 @@ body {
    
 }
 
-.list-inline {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.list-inline li {
-    display: table-cell;
-    text-align: center;
-}
-
 .batches-list-group {
-    height:500px;
+    height:100%;
+    background-color: #7d8588;
+    padding: 10px;
 }
 
 .list-group-item {
@@ -102,18 +93,4 @@ body {
 
 #batch-partial-view {
     animation: nudge 5s linear infinite;
-}
-
-@keyframes nudge {
-    0%, 100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(200px, 0);
-    }
-
-    80% {
-        transform: translate(-100px, 0);
-    }
 }
