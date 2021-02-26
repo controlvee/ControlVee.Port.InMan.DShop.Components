@@ -1,19 +1,21 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<html>
-<head></head>
+﻿<html>
+<head>
+</head>
 <body>
     <div class="col">
         <div class="row-fluid">
             <ul id="batchList" class="batches-list-group pre-scrollable list-group-horizontal list-unstyled d-flex flex-wrap">
                 <li>
-                 @{ await Html.RenderPartialAsync("_Batch"); }
+                    @await @Html.RenderPartialAsync("_Batch");
                 </li>
             </ul>
-            <button id="create-btn" class="btn-dark">create</button>
+            <div id="toUpdate"></div>
         </div>
     </div>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -17,16 +17,35 @@ namespace ControlVee.Port.InMan.DShop.Components.Controllers
             
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            List<string> names = new List<string>()
+            {
+                "Classic G",
+                "Emma Nom",
+                "Sugar High",
+                "Shred Tha Gnar",
+                "Bacon"
+            };
+
+            var randomNameIndex = new Random().Next(names.Count);
+            var randomTotal = new Random().Next(6, 24);
+
+            var batch = new BatchModel()
+            {
+                ID = Guid.NewGuid(),
+                NameOf = names[randomNameIndex],
+                Started = DateTime.Now,
+                Total = randomTotal
+            };
+
+            return PartialView("_Batch", batch);
         }
 
         [HttpGet]
         public IActionResult CreateBatchRecord()
         {
-            
-
             List<string> names = new List<string>()
             {
                 "Classic G",
