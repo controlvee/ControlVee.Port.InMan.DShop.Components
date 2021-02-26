@@ -75,20 +75,26 @@ body {
     height: 240px;
     border: solid;
     border-width: 2px;
-    border-color: #7d8588;
+    border-color: #d7ac6a;
     border-radius: 6px;
     font-size: small;
-    margin: 10px;
+    padding: 4px;
+    background-color: #fff;
+}
+
+.card-header {
+    background-color: #d7ac6a;
 }
 
 .batches-list-group {
     height:100%;
-    background-color: #7d8588;
+    background-color: #f1f3f4;
     padding: 10px;
 }
 
 .list-group-item {
-   
+    border-color: transparent;
+    background-color: transparent;
 }
 
 #batch-partial-view {

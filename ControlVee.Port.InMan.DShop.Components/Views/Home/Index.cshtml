@@ -2,19 +2,90 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!DOCTYPE html>
+<html>
 <head></head>
 <body>
     <div class="col">
         <div class="row-fluid">
-            <ul class="batches-list-group pre-scrollable list-group-horizontal list-unstyled d-flex flex-wrap">
-                <li>
-                    <partial>
-                        @await Html.PartialAsync("_Batch")
-                    </partial>
-                </li>
+            <ul id="batchList" class="batches-list-group pre-scrollable list-group-horizontal list-unstyled d-flex flex-wrap">
             </ul>
-            <button class="btn-dark">create</button>
+
+            <button id="create-btn" class="btn-dark">create</button>
+
         </div>
     </div>
+    <script type="text/javascript">
+
+        document.getElementById("create-btn").addEventListener("click", addToList, false);
+        document.onload(function () {});
+
+        function addToList() {
+
+            $.ajax({
+                type: 'GET',
+                url: '/Home/CreateBatchRecord',
+                dataType: 'html',
+                success: function (response) {
+
+                    console.log(response);
+
+                    var li = document.createElement('li');
+                    li.innerHTML = response;
+                    li.innerHTML.appendChild(jsForProgBarHTML);
+
+                    var batchList = document.getElementById("batchList");
+                    batchList.appendChild(li);
+
+                },
+                error: function () { console.log("FAIL ON CREATE BATCH"); }
+            });
+
+            var jsForProgBarHTML = ` 
+            <script type="text/javascript">
+            var minTime = 0;
+            const totalMiliIn_N = 200;
+            var percent = 0;
+            var percentMax = 100;
+
+            var myVar = setInterval(time, totalMiliIn_N);
+
+            function time() {
+
+                var progbar = document.getElementsByClassName("progress-bar");
+                var progbarLabelValue = document.getElementsByClassName("prog-label");
+
+                var colorFresh = "#61ed29";
+                var colorStable = "#0366d6";
+                var colorGettingStale = "#bee45e";
+                var colorExpired = "#eb5858";
+
+                switch (true) {
+                    case (percent > 10 && percent < 75):
+                        progbar.style.background = colorStable;
+                        break;
+                    case (percent >= 75 && percent < percentMax):
+                        progbar.style.background = colorGettingStale;
+                        break;
+                    case (percent >= percentMax):
+                        progbar.style.background = colorExpired;
+                        break;
+                    default:
+                        progbar.style.background = colorFresh;
+                }
+
+                if (percent >= percentMax) {
+                    percent = percentMax;
+                }
+
+                progbar.style.width = percent + "%";
+                progbarLabelValue.innerHTML = minTime + " seconds";
+
+                console.log("elapsed time: " + minTime + " prog width: " + progbar.style.width);
+
+                minTime++;
+                percent++;
+            };
+            <//script> `;
+        </script>
 </body>
+</html>

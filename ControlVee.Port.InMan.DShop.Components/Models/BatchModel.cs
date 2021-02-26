@@ -8,7 +8,7 @@ namespace ControlVee.Port.InMan.DShop.Components
     [Serializable]
     public class BatchModel 
     {
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         public string NameOf { get; set; }
         public DateTime Started { get; set; }
         public int Total { get; set; }
