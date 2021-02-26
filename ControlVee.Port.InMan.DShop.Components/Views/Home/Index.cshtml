@@ -15,9 +15,9 @@
         </div>
     </div>
     <script type="text/javascript">
+      
 
         document.getElementById("create-btn").addEventListener("click", addToList, false);
-        document.onload(function () {});
 
         function addToList() {
 
@@ -27,65 +27,77 @@
                 dataType: 'html',
                 success: function (response) {
 
-                    console.log(response);
-
+                    var responseElementId;
+                  
                     var li = document.createElement('li');
-                    li.innerHTML = response;
-                    li.innerHTML.appendChild(jsForProgBarHTML);
+                    responseElementId = $(response).find('#modelId').text();
+                    var id = responseElementId.replace(/(\r\n|\n|\r|\s)/gm, "");
+                    console.log(id);
+
+                    var jsForProgBarHTML = "\r\n" +
+
+                        "var minTime = 0; \r\n" +
+                        "const totalMiliIn_N = 200;\r\n" +
+                        "var percent = 0;\r\n" +
+                        "var percentMax = 100;\r\n" +
+
+                        "var myVar = setInterval(time, totalMiliIn_N);\r\n" +
+
+                        "function time() {\r\n" +
+
+                        "var progbar = document.getElementById(\"" + id + "\"); \r\n" +
+
+                        "var colorFresh = \"#61ed29\"; \r\n" +
+                        "var colorStable = \"#0366d6\"; \r\n" +
+                        "var colorGettingStale = \"#bee45e\"; \r\n" +
+                        "var colorExpired = \"#eb5858\"; \r\n" +
+
+                        "switch (true) {\r\n" +
+                        "case (percent > 10 && percent < 75):\r\n" +
+                        "progbar.style.background = colorStable;\r\n" +
+                        "break;\r\n" +
+                        "case (percent >= 75 && percent < percentMax):\r\n" +
+                        "progbar.style.background = colorGettingStale;\r\n" +
+                        "break;\r\n" +
+                        "case (percent >= percentMax):\r\n" +
+                        "progbar.style.background = colorExpired;\r\n" +
+                        "break;\r\n" +
+                        "default:\r\n" +
+                        "progbar.style.background = colorFresh;\r\n" +
+                        "}\r\n" +
+
+                        "if (percent >= percentMax) {\r\n" +
+                        "percent = percentMax;\r\n" +
+                        "}\r\n" +
+
+                        "progbar.style.width = percent + \"%\"\r\n" +
+
+                        "minTime++;\r\n" +
+                        "percent++;};\r\n";
+
+                    console.log(jsForProgBarHTML);
+
+
+
+                    var scriptElem = $(response).add(jsForProgBarHTML, ($(response).find('script')))
+
+                  
+
+                    li.insertAdjacentHTML('afterbegin', response);
 
                     var batchList = document.getElementById("batchList");
                     batchList.appendChild(li);
 
+                    console.log(scriptElem);
+                    
                 },
                 error: function () { console.log("FAIL ON CREATE BATCH"); }
             });
 
-            var jsForProgBarHTML = ` 
-            <script type="text/javascript">
-            var minTime = 0;
-            const totalMiliIn_N = 200;
-            var percent = 0;
-            var percentMax = 100;
+            
+        };
 
-            var myVar = setInterval(time, totalMiliIn_N);
-
-            function time() {
-
-                var progbar = document.getElementsByClassName("progress-bar");
-                var progbarLabelValue = document.getElementsByClassName("prog-label");
-
-                var colorFresh = "#61ed29";
-                var colorStable = "#0366d6";
-                var colorGettingStale = "#bee45e";
-                var colorExpired = "#eb5858";
-
-                switch (true) {
-                    case (percent > 10 && percent < 75):
-                        progbar.style.background = colorStable;
-                        break;
-                    case (percent >= 75 && percent < percentMax):
-                        progbar.style.background = colorGettingStale;
-                        break;
-                    case (percent >= percentMax):
-                        progbar.style.background = colorExpired;
-                        break;
-                    default:
-                        progbar.style.background = colorFresh;
-                }
-
-                if (percent >= percentMax) {
-                    percent = percentMax;
-                }
-
-                progbar.style.width = percent + "%";
-                progbarLabelValue.innerHTML = minTime + " seconds";
-
-                console.log("elapsed time: " + minTime + " prog width: " + progbar.style.width);
-
-                minTime++;
-                percent++;
-            };
-            <//script> `;
+       
         </script>
 </body>
 </html>
