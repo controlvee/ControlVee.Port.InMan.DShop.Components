@@ -85,7 +85,10 @@
             };
         }
     </ul>
-    <select id="nameOfDoughnutBatch" class="form-select col-4">
+
+    <button id="createBatch" class="btn btn-outline-success float-right">create</button>
+
+    <select id="nameOfDoughnutBatch" class="form-select col-4 float-right">
         <option value="Classic Glazed">Classic Glazed</option>
         <option value="Strawberry PopTart">Strawberry PopTart</option>
         <option value="Chocolatte">Chocolatte</option>
@@ -94,13 +97,12 @@
         <option value="Shred Tha Gnar">Shred Tha Gnar</option>
         <option value="Sugar High">Sugar High</option>
     </select>
-    <select id="quantityOfBatch" class="form-select col-4">
+    <select id="quantityOfBatch" class="form-select col-4 float-right">
         <option value="6">6</option>
         <option value="12">12</option>
         <option value="24">24</option>
         <option value="48">48</option>
     </select>
-    <button id="createBatch" class="btn btn-outline-light col-2">create</button>
 
     <script type="text/javascript">
         document.getElementById("createBatch").addEventListener("click", createBatchRecord, false);
@@ -109,8 +111,8 @@
             var nameOf = document.getElementById("nameOfDoughnutBatch").value;
             var total = document.getElementById("quantityOfBatch").value;
             $.ajax({
-                type: 'Put',
-                url: '/Home/_Batch',
+                type: 'Post',
+                url: '/Home/CreateBatch',
                 dataType: 'json',
                 data: "data=" + JSON.stringify({ id: 0, nameOf: nameOf, total: total }),
                 success: function (data) {

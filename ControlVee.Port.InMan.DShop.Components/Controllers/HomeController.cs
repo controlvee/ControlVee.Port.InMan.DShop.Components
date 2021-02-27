@@ -32,10 +32,9 @@ namespace ControlVee.Port.InMan.DShop.Components.Controllers
             return View(batches);
         }
 
-        [HttpPut]
-        public IActionResult _Batch(string data)
+        [HttpPost]
+        public IActionResult CreateBatch(string data)
         {
-            batches = new List<BatchModel>();
             // TODO: Handle unterminated string exc.
             var createBatchModel = JsonConvert.DeserializeObject<CreateBatchModel>(data);
 
@@ -51,7 +50,7 @@ namespace ControlVee.Port.InMan.DShop.Components.Controllers
                 }
             };
 
-            return View(batches);
+            return PartialView(batches);
         }
     }
 }
