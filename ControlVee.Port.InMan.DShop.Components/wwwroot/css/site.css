@@ -71,8 +71,8 @@ body {
 }
 
 .batch-card {
-    width: 160px;
-    height: 240px;
+    width: 200px;
+    height: 100%;
     border: solid;
     border-width: 2px;
     border-color: #d7ac6a;
@@ -95,8 +95,5 @@ body {
 .list-group-item {
     border-color: transparent;
     background-color: transparent;
-}
-
-#batch-partial-view {
-    animation: nudge 5s linear infinite;
+    height: auto;
 }

@@ -1,72 +1,57 @@
 ﻿using ControlVee.Port.InMan.DShop.Components.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ControlVee.Port.InMan.DShop.Components.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly string cstring = @"Data Source=(localdb)\mssqllocaldb;Database=DutShop;Integrated Security=True";
+        private DataAccess context;
+        List<BatchModel> batches;
+
         public HomeController()
         {
             
         }
-
-        [HttpGet]
+       
         public IActionResult Index()
         {
-            List<string> names = new List<string>()
+            batches = new List<BatchModel>();
+            using (var connection = new System.Data.SqlClient.SqlConnection())
             {
-                "Classic G",
-                "Emma Nom",
-                "Sugar High",
-                "Shred Tha Gnar",
-                "Bacon"
+                connection.ConnectionString = cstring;
+
+                context = new DataAccess(connection);
+
+                batches = context.GetAllBatchesFromDb();
+
             };
 
-            var randomNameIndex = new Random().Next(names.Count);
-            var randomTotal = new Random().Next(6, 24);
-
-            var batch = new BatchModel()
-            {
-                ID = Guid.NewGuid(),
-                NameOf = names[randomNameIndex],
-                Started = DateTime.Now,
-                Total = randomTotal
-            };
-
-            return PartialView("_Batch", batch);
+            return View(batches);
         }
 
-        [HttpGet]
-        public IActionResult CreateBatchRecord()
+        [HttpPut]
+        public IActionResult _Batch(string data)
         {
-            List<string> names = new List<string>()
+            batches = new List<BatchModel>();
+            // TODO: Handle unterminated string exc.
+            var createBatchModel = JsonConvert.DeserializeObject<CreateBatchModel>(data);
+
+            using (var connection = new System.Data.SqlClient.SqlConnection())
             {
-                "Classic G",
-                "Emma Nom",
-                "Sugar High",
-                "Shred Tha Gnar",
-                "Bacon"
+                connection.ConnectionString = cstring;
+
+                context = new DataAccess(connection);
+
+                foreach (var model in context.CreateBatchRecordFromDb(createBatchModel.nameOf, createBatchModel.total))
+                {
+                    batches.Add(model);
+                }
             };
 
-            var randomNameIndex = new Random().Next(names.Count);
-            var randomTotal = new Random().Next(6, 24);
-
-            var batch = new BatchModel()
-            {
-                ID = Guid.NewGuid(),
-                NameOf = names[randomNameIndex],
-                Started = DateTime.Now,
-                Total = randomTotal
-            };
-
-            return PartialView("_Batch", batch);
+            return View(batches);
         }
     }
 }
